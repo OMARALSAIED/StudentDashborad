@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block  title %}
+Beacons
+{% endblock title %}
+
+{% block body %}
+
+{% with messages=get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container mt-4">
+    <h2>Beacons Details</h2>
+    <hr>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">BeaconID </th>
+                <th scope="col">Operator</th>
+                <th scope="col">Classroom Number</th>
+                <th scope="col">CreationDate</th>
+                <th scope="col">Caption</th>
+                <th scope="col">UUID</th>
+                <th scope="col">MAC</th>
+                <th scope="col">Deleted</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in query %}
+            <tr>
+                <td>{{ post.beaconID }}</td>
+                <td>{{ opreators_names[post.operatorID] }}</td>
+                <td>{{ classrooms_names[post.classroomID] }}</td>
+                <td>{{ post.creationDate }}</td>
+                <td>{{ post.caption }}</td>
+                <td>{{ post.UUID }}</td>
+                <td>{{ post.MAC }}</td>
+                <td>{{ post.deleted }}</td>
+
+                
+                <td>
+                  <td>    <a href="/beaconedit/{{ post.beaconID }}" class="btn btn-primary btn-sm">Edit</a> </td>
+                    <td>  <a href="/deletebeacon/{{ post.beaconID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a> </td>
+                </td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/addbeacon" class="btn btn-success btn-sm">+ Add New Beacons</a>
+    <br>
+    <br>
+    <td>
+    <form action="/download/report/pdf" method="post">
+      <button type="submit" class="btn btn-secondary btn-sm">Generate PDF</button>
+  </form>
+</div>
+
+{% endblock body %}

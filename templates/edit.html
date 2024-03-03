@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Student
+{% endblock title %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white p-4 shadow">
+
+                <h4 class="text-center  text-success mb-4"> Student Edit</h4>
+
+                <form action="{{ url_for('edit', studentID=studentID) }}" method="POST">
+                    <div class="mb-3">
+                        <label for="operatorID" class="form-label">Operator</label>
+                        <select class="form-select" name="operatorID" id="operatorID" required>
+                            {% for operator in opreators %}
+                            <option value="{{ operator.operatorID }}" {% if student.operatorID == operator.operatorID %} selected {% endif %}>{{ operator.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="departmentID" class="form-label">Department</label>
+                        <select class="form-select" name="departmentID" id="departmentID" required>
+                            {% for department in departments %}
+                            <option value="{{ department.departmentID }}" {% if student.departmentID == department.departmentID %} selected {% endif %}>{{ department.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                   
+
+                    <div class="form-group">
+                        <label for="cardID">Card ID</label>
+                        <input type="number" class="form-control" name="cardID" id="cardID" value="{{ student.cardID }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nationalID">National ID</label>
+                        <input type="number" class="form-control" name="nationalID" id="nationalID" value="{{ student.nationalID }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="male" {{ 'selected' if student.gender == 'male' else '' }}>Male</option>
+                            <option value="female" {{ 'selected' if student.gender == 'female' else '' }}>Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullname">Fullname</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" value="{{ student.fullname }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DateOfBirth">Date of Birth</label>
+                        <input type="date" class="form-control" name="DateOfBirth" id="DateOfBirth" value="{{ student.DateOfBirth }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enrollmentDate">Enrollment Date</label>
+                        <input type="date" class="form-control" name="enrollmentDate" id="enrollmentDate" value="{{ student.enrollmentDate }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="number" class="form-control" name="phoneNumber" id="phoneNumber" value="{{ student.phoneNumber }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" name="address" id="address" required>{{ student.address }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="MAC">MAC</label>
+                        <input type="text" class="form-control" name="MAC" id="MAC" value="{{ student.MAC }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" value="{{ student.email }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" value="{{ student.password }}" required>
+                    </div>
+<br>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="submit" class="btn btn-success btn-block">Update</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

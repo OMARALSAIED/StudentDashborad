@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block  title %}
+Lecturer
+{% endblock title %}
+
+{% block body %}
+
+{% with messages=get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container mt-4">
+  <h2>Lecturer Details</h2>
+  <hr>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Lecturer</th>
+        <th scope="col">operatorID</th>
+        <th scope="col">Department ID</th> 
+        <th scope="col">creation Date</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Lecturer Name</th>
+        <th scope="col">Deleted</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+      {% if query %}
+        {% for post in query %}
+          <tr>
+            <td>{{ post.fullname }}</td>
+            <td>{{ operator_names[post.operatorID] }}</td>
+            <td>{{department_names[post.departmentID]  }}</td> 
+            <td>{{ post.creationDate }}</td>
+            <td>{{ post.gender }}</td>
+            <td>{{ post.fullname}}</td>
+            <td>{{ post.deleted}}</td>
+            
+            
+            <td>
+              <td>  <a href="/lectureredit/{{ post.lecturerID }}" class="btn btn-primary btn-sm">Edit</a></td>
+              <td> <a href="/deletlecturer/{{ post.lecturerID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a></td>
+            </td>
+           
+            
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="15">No data available</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+  <td>
+    <td>  <a href="/addlecturer" class="btn btn-success btn-sm">+ Add New Lecturer</a></td>
+    
+    </td>
+    <br>
+    <br>
+    <form action="/download/student_report/pdf" method="post">
+      <button type="submit"class="btn btn-secondary btn-sm">Generate PDF</button>
+  </form>
+</div>
+
+
+
+{% endblock body %}

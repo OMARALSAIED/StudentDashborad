@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block  title %}
+Department
+{% endblock title %}
+
+
+{% block body %}
+
+<div class="container mt-3">
+
+    <div class="row justify-content-center">
+    
+        <div class="col-md-4">
+         
+        </div>
+        
+        <div class="col-md-4 card bg-dark text-light p-4 shadow">
+
+            <h4 class="text-center text-success mb-4">Add Department</h4>
+
+            {% with messages=get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="/adddepartment" method="post">
+
+                <div class="mb-3">
+                    <label for="facultyID">faculty:</label>
+                    <select name="facultyID" class="form-select">
+                        {% for faculty in faculties %}
+                            <option value="{{ faculty.facultyID }}">{{ faculty.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Department Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descc" class="form-label">Descrabtion</label>
+                    <input type="text" class="form-control" id="descc" name="descc" required>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+          
+
+        </div>
+        
+        <div class="col-md-4">
+    
+        </div> 
+    
+    </div>
+
+</div>
+
+{% endblock body %}

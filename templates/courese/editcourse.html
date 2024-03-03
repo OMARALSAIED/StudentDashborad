@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Course
+{% endblock title %}
+{% block body %}
+<style>
+    /* CSS style to change label color to white */
+    label.form-label {
+        color: white;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark rounded shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">Edit Course</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('courseedit', courseID=courseID) }}" method="post">
+                        <!-- ... (other form elements) ... -->
+
+                        <div class="mb-3">
+                            <label for="departmentID" class="form-label">Department</label>
+                            <select class="form-select" name="departmentID" id="departmentID">
+                                {% for department in departments %}
+                                <option value="{{ department.departmentID }}" {% if course1.departmentID == department.departmentID %} selected {% endif %}>{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Classroom Number dropdown -->
+                        <div class="mb-3">
+                            <label for="classroomID" class="form-label">Classroom</label>
+                            <select class="form-select" name="classroomID" id="classroomID">
+                                {% for classroom in classrooms %}
+                                <option value="{{ classroom.classroomID }}" {% if course1.classroomID == classroom.classroomID %} selected {% endif %}>{{ classroom.number }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <!-- Lecturer Name dropdown -->
+                        <div class="mb-3">
+                            <label for="lecturerID" class="form-label">Lecturer</label>
+                            <select class="form-select" name="lecturerID" id="lecturerID">
+                                {% for lecturer in lecturers %}
+                                <option value="{{ lecturer.lecturerID }}" {% if course1.lecturerID == lecturer.lecturerID %} selected {% endif %}>{{ lecturer.fullname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="operatorID" class="form-label">Operator ID</label>
+                            <input type="number" class="form-control" name="operatorID" id="operatorID" value="{{course1.operatorID }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="creationDate" class="form-label">Creation Date</label>
+                            <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{ course1.creationDate }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="name" value="{{course1.name }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="DayOfweek" class="form-label">Day of Week</label>
+                            <textarea class="form-control" name="DayOfweek" id="DayOfweek" rows="3" required>{{course1.DayOfweek }}</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="startTime" class="form-label">Start Time</label>
+                            <input type="time" class="form-control" name="startTime" id="startTime" value="{{course1.startTime }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="endTime" class="form-label">End Time</label>
+                            <input type="time" class="form-control" name="endTime" id="endTime" value="{{course1.endTime }}" required>
+                        </div>
+                        
+
+                        <div class="d-grid gap-2 col-6 mx-auto mb-4">
+                            <button type="submit" class="btn btn-success rounded-pill">Update</button>
+                        </div>
+                       
+                    </form>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+
+
+

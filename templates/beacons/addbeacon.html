@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block  title %}
+Beacon
+{% endblock title %}
+
+
+
+{% block body %}
+
+
+
+<div class="container mt-3">
+
+
+    <div class="row justify-content-center">
+    
+        <div class="col-md-4">
+         
+        </div>
+        
+        <div class="col-md-4 card bg-dark text-light p-4 shadow">
+
+            <h4 class="text-center text-success mb-4">Add Beacon</h4>
+
+            {% with messages=get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="/addbeacon" method="post">
+
+                <div class="mb-3">
+                    <label for="classroomID">Classroom number:</label>
+                    <select name="classroomID" class="form-select">
+                        {% for classroom in classrooms %}
+                            <option value="{{ classroom.classroomID }}">{{ classroom.number }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="CreationDate" class="form-label">CreationDate</label>
+                    <input type="date" class="form-control" id="CreationDate" name="CreationDate" required>
+                </div>
+                <div class="mb-3">
+                    <label for="caption" class="form-label">caption</label>
+                    <input type="text" class="form-control" id="caption" name="caption" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="UUID" class="form-label">UUID</label>
+                    <input type="text" class="form-control" id="UUID" name="UUID" required>
+                </div>
+
+                
+
+                <div class="mb-3">
+                    <label for="MAC" class="form-label">MAC</label>
+                    <input type="text" class="form-control" id="MAC" name="MAC" required>
+                </div>
+                
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+          
+
+        </div>
+        
+        <div class="col-md-4">
+    
+        </div> 
+    
+    </div>
+
+</div>
+
+{%endblock body%}

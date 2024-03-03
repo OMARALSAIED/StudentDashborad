@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block  title %}
+Attendance
+{% endblock title %}
+
+
+
+{% block body %}
+
+
+
+<div class="container mt-3">
+
+
+    <div class="row justify-content-center">
+    
+        <div class="col-md-4">
+         
+        </div>
+        
+        <div class="col-md-4 card bg-dark text-light p-4 shadow">
+
+            <h4 class="text-center text-success mb-4">Add Attendance</h4>
+
+            {% with messages=get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                            {{message}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="/addattendance" method="post">
+
+                <div class="mb-3">
+                    <label for="studentID">Select Student:</label>
+                    <select name="studentID" class="form-select">
+                        {% for student in students %}
+                            <option value="{{ student.studentID }}">{{ student.fullname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="courseID">Course:</label>
+                    <select name="courseID" class="form-select">
+                        {% for course in courses %}
+                            <option value="{{ course.courseID }}">{{ course.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+             
+                
+               
+                <div class="mb-3">
+                    <label for="timestamp" class="form-label">Timestamp</label>
+                    <input type="datetime-local" class="form-control" id="timestamp" name="timestamp" required>
+                </div>
+             
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+
+
+        </div>
+        
+        <div class="col-md-4">
+    
+        </div> 
+    
+    </div>
+
+</div>
+
+{%endblock body%}

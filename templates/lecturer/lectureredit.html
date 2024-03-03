@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+Lecturer Edit 
+{% endblock title %}
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark rounded shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">Edit Lecturer</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('edit_lecturer', lecturerID=lecturer.lecturerID) }}" method="post">
+                        <div class="mb-3">
+                            <label for="operatorID" class="form-label">Operator</label>
+                            <select class="form-select" name="operatorID" id="operatorID" required>
+                                {% for operator in operators %}
+                                <option value="{{ operator.operatorID }}" {% if lecturer.operatorID == operator.operatorID %} selected {% endif %}>{{ operator.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="departmentID" class="form-label">Department</label>
+                            <select class="form-select" name="departmentID" id="departmentID" required>
+                                {% for department in departments %}
+                                <option value="{{ department.departmentID }}" {% if lecturer.departmentID == department.departmentID %} selected {% endif %}>{{ department.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <input type="text" class="form-control" name="gender" id="gender" value="{{ lecturer.gender }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="fullname" id="fullname" value="{{ lecturer.fullname }}" required>
+                        </div>
+                        <div class="d-grid gap-2 col-6 mx-auto mb-4">
+                            <button type="submit" class="btn btn-success rounded-pill">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+
+
+

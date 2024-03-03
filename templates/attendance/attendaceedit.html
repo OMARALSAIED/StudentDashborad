@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendace Edit 
+{% endblock title %}
+{% block body %}
+<style>
+    /* CSS style to change label color to white */
+    label.form-label {
+        color: white;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark rounded shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">Attendace Edit </h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('attendaceedit', attendanceID=attendanceID) }}" method="post">
+                        <!-- ... (other form elements) ... -->
+                        <div class="mb-3">
+                            <label for="studentID">Select Student:</label>
+                            <select name="studentID" class="form-select">
+                                {% for student in students %}
+                                    <option value="{{ student.studentID }}">{{ student.fullname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="courseID">Select course:</label>
+                            <select name="courseID" class="form-select">
+                                {% for course in courese %}
+                                    <option value="{{ course.courseID }}" {% if course.courseID == course.courseID %} selected {% endif %}>{{ course.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+
+
+                        <div class="mb-3">
+                            <label for="timestamp" class="form-label">Timestamp</label>
+                            <input type="datetime-local" class="form-control" name="timestamp" id="timestamp" value="{{ attendace1.timestamp.strftime('%Y-%m-%dT%H:%M') }}" required>
+                        </div>
+                        
+                    
+                    
+                       
+        
+                        
+                       
+
+                        <div class="d-grid gap-2 col-6 mx-auto mb-4">
+                            <button type="submit" class="btn btn-success rounded-pill">Update</button>
+                        </div>
+                       
+                    </form>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+
+
+

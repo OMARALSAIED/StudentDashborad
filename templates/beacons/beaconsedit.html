@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Course
+{% endblock title %}
+{% block body %}
+<style>
+    /* CSS style to change label color to white */
+    label.form-label {
+        color: white;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-dark rounded shadow">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">Beacon Edit</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('beaconedit', beaconID=beaconID) }}" method="post">
+                        <!-- ... (other form elements) ... -->
+
+                        <div class="mb-3">
+                            <label for="operatorID" class="form-label">Operator ID</label>
+                            <input type="number" class="form-control" name="operatorID" id="operatorID" value="{{beacon1.operatorID }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="classroomID" class="form-label">Classroom ID</label>
+                            <input type="number" class="form-control" name="classroomID" id="classroomID" value="{{beacon1.classroomID }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="CreationDate" class="form-label">CreationDate</label>
+                            <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{beacon1.creationDate }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Caption" class="form-label">Caption</label>
+                            <input type="text" class="form-control" name="caption" id="Caption" value="{{beacon1.caption }}" required>
+                        </div>
+                      
+                        
+                        <div class="mb-3">
+                            <label for="UUID" class="form-label">UUID</label>
+                            <input type="text" class="form-control" name="UUID" id="UUID" value="{{ beacon1.UUID }}" required>
+                        </div>
+                        
+                        
+                        <div class="mb-3">
+                            <label for="MAC" class="form-label">MAC</label>
+                            <input type="text" class="form-control" name="MAC" id="MAC" value="{{ beacon1.MAC }}" required>
+                        </div>
+                        
+                    
+                        
+
+                        <div class="d-grid gap-2 col-6 mx-auto mb-4">
+                            <button type="submit" class="btn btn-success rounded-pill">Update</button>
+                        </div>
+                       
+                    </form>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+
+
+

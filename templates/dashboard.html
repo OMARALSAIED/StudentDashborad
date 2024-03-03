@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block  title %}
+ 
+Dashboard
+{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative;">
+                        <canvas id="attendanceChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6">
+            <div class="card card-style mb-2">
+                <div class="card-body">
+                    <div class="chart-container" style="position: relative;">
+                        <canvas id="attendanceChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Function to render the attendance charts
+    function renderAttendanceCharts() {
+        let attendance_chart_data = {{ attendance_chart_data | tojson }};
+        let student_chart_data = {{ student_chart_data | tojson }};
+
+        let attendanceChart1 = new Chart(document.getElementById('attendanceChart1'), {
+            type: 'pie',
+            data: attendance_chart_data,
+            options: {
+                title: {
+                    display: true,
+                    text: "Student Attendance (Chart 1)",
+                    fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                    labels: {
+                        fontColor: "gray"
+                    },
+                    display: true,
+                },
+                elements: {
+                    hitRadius: 3,
+                }
+            }
+        });
+
+        let attendanceChart2 = new Chart(document.getElementById('attendanceChart2'), {
+            type: 'pie',
+            data: student_chart_data,
+            options: {
+                title: {
+                    display: true,
+                    text: "Student Attendance (Chart 2)",
+                    fontSize: 20,
+                },
+                legend: {
+                    position: "right",
+                    labels: {
+                        fontColor: "gray"
+                    },
+                    display: true,
+                },
+                elements: {
+                    hitRadius: 3,
+                }
+            }
+        });
+    }
+
+    // Call the function to render the charts
+    renderAttendanceCharts();
+
+</script>
+
+{% endblock body %}
