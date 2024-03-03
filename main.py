@@ -10,8 +10,11 @@ from flask_login import login_user,logout_user,login_manager,LoginManager,login_
 from fpdf import FPDF
 from werkzeug.security import generate_password_hash,check_password_hash
 from sqlalchemy import func, text
-import streamlit.components.v1 as components
 import pdfkit
+from flask_restful import Resource, Api, reqparse, fields, marshal_with
+
+
+
 # Data Base Connection
 local_server = True
 app = Flask(__name__)
@@ -30,6 +33,9 @@ def load_user(operatorID):
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/ipsattendacne'
 
 db = SQLAlchemy(app)
+api=Api(app)
+
+
 
 # Create Data Base Models
 
@@ -140,15 +146,116 @@ class beacon(db.Model):
       deleted = db.Column(db.Boolean, default=False)
 
 
-
-
 class attendancesheet(db.Model):
-      
-      attendanceID=db.Column(db.Integer, primary_key=True, nullable=False)
-      studentID=db.Column(db.Integer, db.ForeignKey('student.studentID', onupdate='CASCADE', ondelete='CASCADE'))
-      courseID=db.Column(db.Integer, db.ForeignKey('course.courseID', onupdate='CASCADE', ondelete='CASCADE'))
-      timestamp=db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-      deleted = db.Column(db.Boolean, default=False)
+    attendanceID = db.Column(db.Integer, primary_key=True, nullable=False)
+    studentID = db.Column(db.Integer, db.ForeignKey('student.studentID', onupdate='CASCADE', ondelete='CASCADE'))
+    courseID = db.Column(db.Integer, db.ForeignKey('course.courseID', onupdate='CASCADE', ondelete='CASCADE'))
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    deleted = db.Column(db.Boolean, default=False)
+
+
+
+
+
+resource_fields = {
+    'attendanceID': fields.Integer,
+    'studentID': fields.Integer,
+    'courseID': fields.Integer,
+    'timestamp': fields.DateTime(dt_format='iso8601'),
+    'deleted': fields.Boolean
+}
+
+# Define the resource for retrieving all attendance records
+class AttendanceListResource(Resource):
+    @marshal_with(resource_fields)
+    def get(self):
+        attendance_records = attendancesheet.query.all()
+        return attendance_records
+
+# Add resource to API with appropriate route
+api.add_resource(AttendanceListResource, '/attendancesheet')
+
+
+
+
+# Define fields for marshalling
+student_fields = {
+    'studentID': fields.Integer,
+    'operatorID': fields.Integer,
+    'departmentID': fields.Integer,
+    'creationDate': fields.DateTime(dt_format='iso8601'),
+    'cardID': fields.String,
+    'nationalID': fields.String,
+    'gender': fields.String,
+    'fullname': fields.String,
+    'DateOfBirth': fields.DateTime(dt_format='iso8601'),
+    'enrollmentDate': fields.DateTime(dt_format='iso8601'),
+    'phoneNumber': fields.String,
+    'address': fields.String,
+    'MAC': fields.String,
+    'email': fields.String,
+    'password': fields.String,
+    'deleted': fields.Boolean
+}
+
+class StudentResource(Resource):
+    @marshal_with(student_fields)
+    def get(self, student_id=None):
+        if student_id:
+            student = Student.query.get_or_404(student_id)
+            return student
+        else:
+            students = Student.query.all()
+            return students
+
+    def post(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('operatorID', type=int, required=True)
+        parser.add_argument('departmentID', type=int, required=True)
+        # Add other arguments here
+        args = parser.parse_args()
+
+        # Create a new student record
+        new_student = Student(**args)
+        db.session.add(new_student)
+        db.session.commit()
+        return {'message': 'Student created successfully'}, 201
+
+    def put(self, student_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('operatorID', type=int)
+        parser.add_argument('departmentID', type=int)
+        # Add other arguments here
+        args = parser.parse_args()
+
+        # Update the student record
+        student = Student.query.get_or_404(student_id)
+        for key, value in args.items():
+            if value is not None:
+                setattr(student, key, value)
+        db.session.commit()
+        return {'message': 'Student updated successfully'}, 200
+
+    def delete(self, student_id):
+        # Delete the student record
+        student = Student.query.get_or_404(student_id)
+        db.session.delete(student)
+        db.session.commit()
+        return {'message': 'Student deleted successfully'}, 200
+
+api.add_resource(StudentResource, '/students', '/students/<int:student_id>')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1476,3 +1583,4 @@ def Home():
 
 
 app.run(debug=True)
+
