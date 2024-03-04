@@ -8,6 +8,7 @@ Dashboard
 {% block body %}
 
 <div class="container">
+    <h1 class="text-center mb-4">Dashboard</h1>
     <div class="row justify-content-center">
         <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6">
             <div class="card card-style mb-2">
@@ -30,54 +31,90 @@ Dashboard
     </div>
 </div>
 
+<div class="container mt-5">
+   
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card h-100 bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Lecturers</h5>
+                    <p class="card-text">{{ lecturers_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Faculties</h5>
+                    <p class="card-text">{{ faculties_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Courses</h5>
+                    <p class="card-text">{{ courses_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Students</h5>
+                    <p class="card-text">{{ students_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-danger text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Classrooms</h5>
+                    <p class="card-text">{{ classrooms_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Attendance</h5>
+                    <p class="card-text">{{ attendance_records_count }}</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+  
+    
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
     // Function to render the attendance charts
     function renderAttendanceCharts() {
-        let attendance_chart_data = {{ attendance_chart_data | tojson }};
-        let student_chart_data = {{ student_chart_data | tojson }};
+        let attendanceChart1Ctx = document.getElementById('attendanceChart1').getContext('2d');
+        let attendanceChart2Ctx = document.getElementById('attendanceChart2').getContext('2d');
 
-        let attendanceChart1 = new Chart(document.getElementById('attendanceChart1'), {
+        let attendanceChart1 = new Chart(attendanceChart1Ctx, {
             type: 'pie',
-            data: attendance_chart_data,
+            data: {{ attendance_chart_data | tojson }},
             options: {
-                title: {
-                    display: true,
-                    text: "Student Attendance (Chart 1)",
-                    fontSize: 20,
-                },
-                legend: {
-                    position: "right",
-                    labels: {
-                        fontColor: "gray"
-                    },
-                    display: true,
-                },
-                elements: {
-                    hitRadius: 3,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
                 }
             }
         });
 
-        let attendanceChart2 = new Chart(document.getElementById('attendanceChart2'), {
+        let attendanceChart2 = new Chart(attendanceChart2Ctx, {
             type: 'pie',
-            data: student_chart_data,
+            data: {{ student_chart_data | tojson }},
             options: {
-                title: {
-                    display: true,
-                    text: "Student Attendance (Chart 2)",
-                    fontSize: 20,
-                },
-                legend: {
-                    position: "right",
-                    labels: {
-                        fontColor: "gray"
-                    },
-                    display: true,
-                },
-                elements: {
-                    hitRadius: 3,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
                 }
             }
         });
@@ -85,7 +122,5 @@ Dashboard
 
     // Call the function to render the charts
     renderAttendanceCharts();
-
 </script>
-
 {% endblock body %}

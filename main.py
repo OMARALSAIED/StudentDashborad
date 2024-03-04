@@ -156,7 +156,7 @@ class attendancesheet(db.Model):
 
 
 
-
+#Attendance API
 resource_fields = {
     'attendanceID': fields.Integer,
     'studentID': fields.Integer,
@@ -177,7 +177,7 @@ api.add_resource(AttendanceListResource, '/attendancesheet')
 
 
 
-
+#Students API
 # Define fields for marshalling
 student_fields = {
     'studentID': fields.Integer,
@@ -243,7 +243,87 @@ class StudentResource(Resource):
         db.session.commit()
         return {'message': 'Student deleted successfully'}, 200
 
-api.add_resource(StudentResource, '/students', '/students/<int:student_id>')
+api.add_resource(StudentResource, '/studentsapi', '/students/<int:student_id>')
+
+#================================================================================PDF
+
+
+@app.route('/download/course_report/pdf')
+def generate_course_pdf():
+    # Fetch course data from the database
+    courses = Course.query.all()
+
+    # Initialize PDF object
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=15)
+
+    # Set font for the report title
+    pdf.set_font("Arial", size=16, style='B')
+
+    # Add title to the report
+    pdf.cell(200, 10, txt="Course Data Report", ln=True, align='C')
+
+    # Add date to the report
+    pdf.set_font("Arial", size=12)
+    pdf.cell(0, 10, txt=f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True, align='L')
+
+    # Add course data to the report
+    pdf.set_font("Arial", size=12)
+    pdf.ln(10)  # Add a new line
+    for course in courses:
+        pdf.cell(0, 10, txt=f"Course Name: {course.name}", ln=True)
+        
+        # Fetch lecturer name by lecturer ID
+        lecturer = Lecturer.query.filter_by(lecturerID=course.lecturerID).first()
+        if lecturer:
+            pdf.cell(0, 10, txt=f"Lecturer Name: {lecturer.fullname}", ln=True)
+        else:
+            pdf.cell(0, 10, txt="Lecturer Name: Not found", ln=True)
+
+        # Fetch department name by department ID
+        department = Department.query.filter_by(departmentID=course.departmentID).first()
+        if department:
+            pdf.cell(0, 10, txt=f"Department Name: {department.name}", ln=True)
+        else:
+            pdf.cell(0, 10, txt="Department Name: Not found", ln=True)
+
+        # Fetch classroom name by classroom ID
+        classroom1 = classroom.query.filter_by(classroomID=course.classroomID).first()
+        if classroom:
+            pdf.cell(0, 10, txt=f"Classroom Name: {classroom1.number}", ln=True)
+        else:
+            pdf.cell(0, 10, txt="Classroom Name: Not found", ln=True)
+
+        # Fetch operator name by operator ID
+        operator = Operator.query.filter_by(operatorID=course.operatorID).first()
+        if operator:
+            pdf.cell(0, 10, txt=f"Operator Name: {operator.name}", ln=True)
+        else:
+            pdf.cell(0, 10, txt="Operator Name: Not found", ln=True)
+
+        pdf.cell(0, 10, txt=f"Creation Date: {course.creationDate}", ln=True)
+        pdf.cell(0, 10, txt=f"Day Of Week: {course.DayOfweek}", ln=True)
+        pdf.cell(0, 10, txt=f"Start Time: {course.startTime}", ln=True)
+        pdf.cell(0, 10, txt=f"End Time: {course.endTime}", ln=True)
+        pdf.cell(0, 10, txt=f"Deleted: {course.deleted}", ln=True)
+        pdf.ln(10)  # Add a new line
+
+    # Create a response with PDF content
+    response = make_response(pdf.output(dest='S').encode('latin1'))
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=course_report.pdf'
+
+    return response
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1465,9 +1545,34 @@ def dashboard():
             'data': student_counts,
             'backgroundColor': ['#FF6384', '#36A2EB', '#FFCE56']  # Example colors
         }]
-    }
+    } # Retrieve counts for each category
+    lecturers_count = Lecturer.query.count()
+    faculties_count = faculty.query.count()
+    departments_count = Department.query.count()
+    classrooms_count = classroom.query.count()
+    courses_count = Course.query.count()
+    students_count = Student.query.count()
+    beacons_count = beacon.query.count()
+    attendance_records_count = attendancesheet.query.count()
 
-    return render_template('dashboard.html', attendance_chart_data=attendance_chart_data, student_chart_data=student_chart_data)
+    # Dummy data for charts (replace with your actual data)
+    attendance_chart_data_1 = [65, 59, 80, 81, 56, 55]
+    attendance_chart_data_2 = [75, 69, 85, 84, 66, 60]
+    months = ['January', 'February', 'March', 'April', 'May', 'June']
+
+    return render_template('dashboard.html', 
+                            lecturers_count=lecturers_count,
+                            faculties_count=faculties_count,
+                            departments_count=departments_count,
+                            classrooms_count=classrooms_count,
+                            courses_count=courses_count,
+                            students_count=students_count,
+                            beacons_count=beacons_count,
+                            attendance_records_count=attendance_records_count,
+                            attendance_chart_data_1=attendance_chart_data_1,
+                            attendance_chart_data_2=attendance_chart_data_2,
+                            months=months, attendance_chart_data=attendance_chart_data, student_chart_data=student_chart_data)
+
 
 
 
@@ -1563,11 +1668,12 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("Logout SuccessFul" ,"warning")
+    flash("Logout Successfully" ,"warning")
     return redirect(url_for('login'))
 
 
 @app.route('/testdb')
+
 def testdb():
     try: 
         Role.query.all()
@@ -1581,6 +1687,43 @@ def Home():
     return 'Home'
 
 
+@app.route('/search', methods=['POST', 'GET'])
+@login_required
+def search():
+    if request.method == 'POST':
+        query = request.form.get('search')
+
+        # Perform search in each table and collect results
+        department_results = Department.query.filter(Department.name.ilike(f'%{query}%')).all()
+        student_results = Student.query.filter(Student.fullname.ilike(f'%{query}%')).all()
+        operator_results = Operator.query.filter(Operator.name.ilike(f'%{query}%')).all()
+        classroom_results = classroom.query.filter(classroom.caption.ilike(f'%{query}%')).all()
+        course_results = Course.query.filter(Course.name.ilike(f'%{query}%')).all()
+        lecturer_results = Lecturer.query.filter(Lecturer.fullname.ilike(f'%{query}%')).all()
+        beacon_results = beacon.query.filter(beacon.caption.ilike(f'%{query}%')).all()
+        attendance_results = attendancesheet.query.filter().all()  # You can add specific filters for attendance search
+
+        # Create a dictionary to map model names to their corresponding routes
+        route_mapping = {
+            'Department': 'department',
+            'Student': 'student',
+            'Operator': 'operator',
+            'Classroom': 'classroom',
+            'Course': 'course',
+            'Lecturer': 'lecturer',
+            'Beacon': 'beacon',
+            'Attendance': 'attendance'
+        }
+
+        # Redirect to the appropriate route based on the selected search result
+        for result in department_results + student_results + operator_results + classroom_results + course_results + lecturer_results + beacon_results + attendance_results:
+            route = route_mapping.get(result.__class__.__name__)
+            if route:
+                return redirect(url_for(route, id=result.id))  # Assuming each model has an 'id' attribute
+
+    # Handle GET request to show search form
+    return render_template('index.html')
+    
 
 app.run(debug=True)
 

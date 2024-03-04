@@ -5,6 +5,7 @@ Course
 {% endblock title %}
 
 {% block body %}
+
 <div class="container mt-4">
   <h2>Courses Details</h2>
   <hr>
@@ -53,5 +54,10 @@ Course
     </tbody>
   </table>
   <a href="/addcourse" class="btn btn-success btn-sm">+ Add New Course</a>
+  <br>
+  <br>
+  <form action="/download/course_report/pdf" method="get">
+    <button type="submit"class="btn btn-secondary btn-sm">Download PDF Report</button>
+</form>
 </div>
 {% endblock body %}
