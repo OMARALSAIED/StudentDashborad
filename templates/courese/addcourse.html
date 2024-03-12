@@ -57,11 +57,11 @@ Course
                 
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters."  required>
                 </div>
                 <div class="mb-3">
                     <label for="DayOfweek" class="form-label">Day of Week:</label>
-                    <input type="number" class="form-control" id="DayOfweek" name="DayOfweek" required>
+                    <input type="number" class="form-control" id="DayOfweek" name="DayOfweek"  pattern="[0-9]*" title="Please enter a valid number" required>
                 </div>
                 <div class="mb-3">
                     <label for="startTime" class="form-label">Start Time:</label>

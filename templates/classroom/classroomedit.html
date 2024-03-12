@@ -15,14 +15,7 @@
                     <form action="{{ url_for('classroomedit', classroomID=classroomID) }}" method="post">
                         <!-- ... (other form elements) ... -->
 
-                        <div class="mb-3">
-                            <label for="operatorID" class="form-label" style="color: white;">Operator</label>
-                            <select class="form-select" name="operatorID" id="operatorID" required>
-                                {% for operator in operators %}
-                                    <option value="{{ operator.operatorID }}" {% if classroom1.operatorID == operator.operatorID %} selected {% endif %}>{{ operator.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                        
                         
                         <div class="mb-3">
                             <label for="departmentID" class="form-label"style="color: white;">Department</label>
@@ -54,10 +47,7 @@
                             <input type="number" class="form-control" name="floor" id="floor" value="{{ classroom1.floor }}" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="deleted" class="form-label" style="color: white;">Deleted</label>
-                            <input type="text" class="form-control" name="deleted" id="deleted" value="{{classroom1.deleted }}" required>
-                        </div>
+                       
 
                         <div class="d-grid gap-2 col-6 mx-auto mb-4">
                             <button type="submit" class="btn btn-success rounded-pill">Update</button>

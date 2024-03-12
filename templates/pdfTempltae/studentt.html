@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 100%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 16px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .summary p {
+            margin: 8px 0;
+        }
+        .summary p:first-child {
+            margin-top: 0;
+        }
+        .summary p strong {
+            color: #00000;
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 10px;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+            .summary {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Data Report</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Department</th>
+                    <th>Card ID</th>
+                    <th>National ID</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Enrollment Date</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                    <th>MAC</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student.fullname }}</td>
+                        <td>{{ department_names[student.departmentID] if student.departmentID in department_names else 'Not found' }}</td>
+                        <td>{{ student.cardID }}</td>
+                        <td>{{ student.nationalID }}</td>
+                        <td>{{ student.gender }}</td>
+                        <td>{{ student.DateOfBirth }}</td>
+                        <td>{{ student.enrollmentDate }}</td>
+                        <td>{{ student.phoneNumber }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>{{ student.MAC }}</td>
+                     
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="summary">
+            <p><strong>Total Students:</strong> {{ total_students }}</p>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Data Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #333;
+            text-transform: uppercase;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 16px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .summary p {
+            margin: 8px 0;
+        }
+        .summary p:first-child {
+            margin-top: 0;
+        }
+        .summary p strong {
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Course Data Report</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Lecturer Name</th>
+                    <th>Department Name</th>
+                    <th>Classroom Number</th>
+                    <th>Operator Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ lecturer_names[course.lecturerID] if course.lecturerID in lecturer_names else 'Not found' }}</td>
+                        <td>{{ department_names[course.departmentID] if course.departmentID in department_names else 'Not found' }}</td>
+                        <td>{{ classroom_numbers[course.classroomID] if course.classroomID in classroom_numbers else 'Not found' }}</td>
+                        <td>{{ operator_names[course.operatorID] if course.operatorID in operator_names else 'Not found' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="summary">
+            <p><strong>Total Courses:</strong> {{ total_courses }}</p>
+            <p><strong>Total Departments:</strong> {{ total_departments }}</p>
+            <p><strong>Total Lecturers:</strong> {{ total_lecturers }}</p>
+            <p><strong>Total Classrooms:</strong> {{ total_classrooms }}</p>
+        </div>
+    </div>
+</body>
+</html>

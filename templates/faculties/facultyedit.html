@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Faculty  Edit 
+Edit Faculty
 {% endblock title %}
 {% block body %}
 <div class="container mt-5">
@@ -9,36 +9,28 @@ Faculty  Edit
         <div class="col-md-8">
             <div class="card bg-dark rounded shadow">
                 <div class="card-header bg-danger text-white text-center">
-                    <h4 class="mb-0">Faculty Edit</h4>
+                    <h4 class="mb-0">Edit Faculty</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ url_for('facultyedit', facultyID=facultyID) }}" method="post">
                         <!-- ... (other form elements) ... -->
 
+                        
                         <div class="mb-3">
-                            <label for="operatorID" class="form-label">Operator ID</label>
-                            <input type="text" class="form-control" name="operatorID" id="operatorID" value="{{faculty1.operatorID }}" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="creationDate" class="form-label">Creation Date</label>
+                            <label for="creationDate" class="form-label"  style="color: white;">Update Date</label>
                             <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{ faculty1.creationDate }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label"  style="color: white;">Faculty Name</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{faculty1.name }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="descc" class="form-label">Description</label>
+                            <label for="descc" class="form-label"  style="color: white;">Description</label>
                             <textarea class="form-control" name="descc" id="descc" rows="3" required>{{faculty1.descc }}</textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="deleted" class="form-label">Deleted</label>
-                            <input type="text" class="form-control" name="deleted" id="deleted" value="{{faculty1.deleted }}" required>
-                        </div>
 
                         <div class="d-grid gap-2 col-6 mx-auto mb-4">
                             <button type="submit" class="btn btn-success rounded-pill">Update</button>

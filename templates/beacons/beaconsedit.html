@@ -15,19 +15,20 @@
         <div class="col-md-8">
             <div class="card bg-dark rounded shadow">
                 <div class="card-header bg-danger text-white text-center">
-                    <h4 class="mb-0">Beacon Edit</h4>
+                    <h4 class="mb-0">Edit Beacon </h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ url_for('beaconedit', beaconID=beaconID) }}" method="post">
                         <!-- ... (other form elements) ... -->
 
+                        
                         <div class="mb-3">
-                            <label for="operatorID" class="form-label">Operator ID</label>
-                            <input type="number" class="form-control" name="operatorID" id="operatorID" value="{{beacon1.operatorID }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="classroomID" class="form-label">Classroom ID</label>
-                            <input type="number" class="form-control" name="classroomID" id="classroomID" value="{{beacon1.classroomID }}" required>
+                            <label for="classroomID" class="form-label" style="color: white;" >Classroom Number</label>
+                            <select class="form-select" name="classroomID" id="classroomID" required>
+                                {% for classroom in classrooms %}
+                                <option value="{{ classroom.classroomID }}" {% if beacon1.classroomID == classroom.classroomID %} selected {% endif %}>{{ classroom.number }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="CreationDate" class="form-label">CreationDate</label>

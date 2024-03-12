@@ -13,16 +13,9 @@ Lecturer Edit
                 </div>
                 <div class="card-body">
                     <form action="{{ url_for('edit_lecturer', lecturerID=lecturer.lecturerID) }}" method="post">
+                       
                         <div class="mb-3">
-                            <label for="operatorID" class="form-label">Operator</label>
-                            <select class="form-select" name="operatorID" id="operatorID" required>
-                                {% for operator in operators %}
-                                <option value="{{ operator.operatorID }}" {% if lecturer.operatorID == operator.operatorID %} selected {% endif %}>{{ operator.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="departmentID" class="form-label">Department</label>
+                            <label for="departmentID" class="form-label" style="color: white;" >Department</label>
                             <select class="form-select" name="departmentID" id="departmentID" required>
                                 {% for department in departments %}
                                 <option value="{{ department.departmentID }}" {% if lecturer.departmentID == department.departmentID %} selected {% endif %}>{{ department.name }}</option>
@@ -30,13 +23,18 @@ Lecturer Edit
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="gender" class="form-label">Gender</label>
+                            <label for="gender" class="form-label" style="color: white;">Gender</label>
                             <input type="text" class="form-control" name="gender" id="gender" value="{{ lecturer.gender }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="fullname" class="form-label">Full Name</label>
+                            <label for="fullname" class="form-label" style="color: white;">Full Name</label>
                             <input type="text" class="form-control" name="fullname" id="fullname" value="{{ lecturer.fullname }}" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="creationDate" class="form-label" style="color: white;">Creation Date</label>
+                            <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{ lecturer.creationDate }}" required>
+                        </div>
+
                         <div class="d-grid gap-2 col-6 mx-auto mb-4">
                             <button type="submit" class="btn btn-success rounded-pill">Update</button>
                         </div>

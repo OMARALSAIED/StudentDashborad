@@ -24,10 +24,11 @@ ClassRoom
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            <form action="{{ url_for('addclassroom') }}" method="post">
+            <form action="{{ url_for('addclassroom') }}" method="post" novalidate>
                 <div class="mb-3">
                     <label for="departmentID">Select Department:</label>
-                    <select name="departmentID" class="form-select">
+                    <select name="departmentID" class="form-select" required>
+                        <option value="">Select Department</option>
                         {% for department in departments %}
                             <option value="{{ department.departmentID }}">{{ department.name }}</option>
                         {% endfor %}
@@ -35,15 +36,25 @@ ClassRoom
                 </div>
                 <div class="mb-3">
                     <label for="caption" class="form-label">Caption</label>
-                    <input type="text" class="form-control" id="caption" name="caption" required>
+                    <input type="caption" class="form-control" id="caption" name="caption"pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters."  required>
+                    <div class="invalid-feedback">
+                        Please provide a valid classroom caption.
+                    </div>
                 </div>
+              
                 <div class="mb-3">
                     <label for="number" class="form-label">Classroom Number</label>
-                    <input type="number" class="form-control" id="number" name="number" required>
+                    <input type="number" class="form-control" id="number" name="number" pattern="[0-9]*" title="Please enter a valid number" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid classroom number.
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="floor" class="form-label">Floor Number</label>
                     <input type="number" class="form-control" id="floor" name="floor" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid floor number.
+                    </div>
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success">Add</button>

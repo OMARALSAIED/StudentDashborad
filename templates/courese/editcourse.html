@@ -22,7 +22,7 @@
                         <!-- ... (other form elements) ... -->
 
                         <div class="mb-3">
-                            <label for="departmentID" class="form-label">Department</label>
+                            <label for="departmentID" class="form-label">Department Name</label>
                             <select class="form-select" name="departmentID" id="departmentID">
                                 {% for department in departments %}
                                 <option value="{{ department.departmentID }}" {% if course1.departmentID == department.departmentID %} selected {% endif %}>{{ department.name }}</option>
@@ -31,7 +31,7 @@
                         </div>
                         <!-- Classroom Number dropdown -->
                         <div class="mb-3">
-                            <label for="classroomID" class="form-label">Classroom</label>
+                            <label for="classroomID" class="form-label">Classroom Number</label>
                             <select class="form-select" name="classroomID" id="classroomID">
                                 {% for classroom in classrooms %}
                                 <option value="{{ classroom.classroomID }}" {% if course1.classroomID == classroom.classroomID %} selected {% endif %}>{{ classroom.number }}</option>
@@ -40,31 +40,27 @@
                         </div>
                         <!-- Lecturer Name dropdown -->
                         <div class="mb-3">
-                            <label for="lecturerID" class="form-label">Lecturer</label>
+                            <label for="lecturerID" class="form-label">Lecturer Name</label>
                             <select class="form-select" name="lecturerID" id="lecturerID">
                                 {% for lecturer in lecturers %}
                                 <option value="{{ lecturer.lecturerID }}" {% if course1.lecturerID == lecturer.lecturerID %} selected {% endif %}>{{ lecturer.fullname }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="operatorID" class="form-label">Operator ID</label>
-                            <input type="number" class="form-control" name="operatorID" id="operatorID" value="{{course1.operatorID }}" required>
-                        </div>
-                        
+                     
                         <div class="mb-3">
                             <label for="creationDate" class="form-label">Creation Date</label>
                             <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{ course1.creationDate }}" required>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label"> Course Name</label>
                             <input type="text" class="form-control" name="name" id="name" value="{{course1.name }}" required>
                         </div>
                         
                         <div class="mb-3">
                             <label for="DayOfweek" class="form-label">Day of Week</label>
-                            <textarea class="form-control" name="DayOfweek" id="DayOfweek" rows="3" required>{{course1.DayOfweek }}</textarea>
+                            <input class="form-control" name="DayOfweek" id="DayOfweek" rows="3" value={{course1.DayOfweek }} required>
                         </div>
                         
                         <div class="mb-3">

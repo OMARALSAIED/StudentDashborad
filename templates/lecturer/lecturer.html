@@ -25,14 +25,15 @@ Lecturer
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">Lecturer</th>
-        <th scope="col">operatorID</th>
-        <th scope="col">Department ID</th> 
+       
+        <th scope="col">Lecturer Name</th>
+        <th scope="col">Department Name</th>
+        <th scope="col">Operator Name</th>  
         <th scope="col">creation Date</th>
         <th scope="col">Gender</th>
-        <th scope="col">Lecturer Name</th>
+        
         <th scope="col">Deleted</th>
-       
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -40,11 +41,11 @@ Lecturer
         {% for post in query %}
           <tr>
             <td>{{ post.fullname }}</td>
-            <td>{{ operator_names[post.operatorID] }}</td>
-            <td>{{department_names[post.departmentID]  }}</td> 
+            <td>{{ department_names[post.departmentID] }}</td>
+            <td>{{operator_names[post.operatorID]  }}</td> 
             <td>{{ post.creationDate }}</td>
             <td>{{ post.gender }}</td>
-            <td>{{ post.fullname}}</td>
+           
             <td>{{ post.deleted}}</td>
             
             

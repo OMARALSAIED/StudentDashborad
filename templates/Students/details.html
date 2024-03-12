@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Details
+{% endblock title %}
+
+{% block body %}
+{% with messages=get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container mt-4">
+  <h2>Students Details</h2>
+  <div class="table-responsive"> <!-- Make table responsive -->
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Student Name</th>
+          <th scope="col">Operator Name</th>
+          <th scope="col">Department Name</th>
+          <th scope="col">Creation Date</th>
+          <th scope="col">Card ID</th>
+          <th scope="col">National ID</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Fullname</th>
+          <th scope="col">Date of Birth</th>
+          <th scope="col">Enrollment Date</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Address</th>
+          <th scope="col">MAC Address</th>
+          <th scope="col">Email</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        {% if query %}
+          {% for post in query %}
+            <tr>
+              <td>{{ post.fullname}}</td>
+              <td>{{ operator_names[post.operatorID] }}</td>
+              <td>{{department_names[post.departmentID]  }}</td> 
+              <td>{{ post.creationDate }}</td>
+              <td>{{ post.cardID }}</td>
+              <td>{{ post.nationalID }}</td>
+              <td>{{ post.gender }}</td>
+              <td>{{ post.fullname }}</td>
+              <td>{{ post.DateOfBirth }}</td>
+              <td>{{ post.enrollmentDate }}</td>
+              <td>{{ post.phoneNumber }}</td>
+              <td>{{ post.address }}</td>
+              <td>{{ post.MAC }}</td>
+              <td>{{ post.email }}</td>
+              <td>
+              <td>  <a href="/edit/{{ post.studentID }}" class="btn btn-primary btn-sm">Edit</a></td>
+              <td>  <a href="/delete/{{ post.studentID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a></td>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="15">No data available</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <form action="/download/student_report/pdf" method="GET">
+    <button type="submit"class="btn btn-secondary btn-sm">Download PDF Report</button>
+  </form>
+</div>
+{% endblock body %}

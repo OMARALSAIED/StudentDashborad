@@ -5,19 +5,11 @@ Dashboard
 {% endblock title %}
 
 {% block body %}
-
 <div class="container mt-3">
-
     <div class="row justify-content-center">
-    
-        <div class="col-md-4">
-         
-        </div>
-        
+        <div class="col-md-4"></div>
         <div class="col-md-4 card bg-dark text-light p-4 shadow">
-
             <h4 class="text-center text-success mb-4">Add Faculty</h4>
-
             {% with messages=get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -30,36 +22,23 @@ Dashboard
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-
-            <form action="/addfaculty" method="post">
-
-               
-
+            <form action="/addfaculty" method="post" id="facultyForm">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="name" class="form-control" id="name" name="name" required>
+                    <input type="text" class="form-control" id="name" name="name"pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters." required>
+                    <div class="invalid-feedback">Please enter a valid name.</div>
                 </div>
                 <div class="mb-3">
-                    <label for="descc" class="form-label">Descrabtion</label>
-                    <input type="descc" class="form-control" id="descc" name="descc" required>
+                    <label for="descc" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="descc" name="descc" pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters." required>
+                    <div class="invalid-feedback">Please enter a valid description.</div>
                 </div>
-
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success">Add</button>
                 </div>
-
             </form>
-
-          
-
         </div>
-        
-        <div class="col-md-4">
-    
-        </div> 
-    
+        <div class="col-md-4"></div>
     </div>
-
 </div>
-
 {% endblock body %}
