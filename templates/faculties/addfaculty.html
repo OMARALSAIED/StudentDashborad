@@ -25,7 +25,7 @@ Dashboard
             <form action="/addfaculty" method="post" id="facultyForm">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name"pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters." required>
+                    <input type="text" class="form-control" id="name" name="name" pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters." required>
                     <div class="invalid-feedback">Please enter a valid name.</div>
                 </div>
                 <div class="mb-3">
@@ -34,11 +34,18 @@ Dashboard
                     <div class="invalid-feedback">Please enter a valid description.</div>
                 </div>
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success">Add</button>
+                    <button type="submit" class="btn btn-outline-success">Add</button>
                 </div>
+                <br>
+            <br>
             </form>
+            <!-- Button styled as arrow to redirect -->
+            <a href="/faculty_Details" class="btn btn-outline-info btn-arrow">
+                <span class="fas fa-arrow-right"></span> Go to Datales Page
+            </a>
         </div>
         <div class="col-md-4"></div>
     </div>
 </div>
 {% endblock body %}
+

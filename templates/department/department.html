@@ -25,13 +25,13 @@ Department
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">Department ID</th>
+        <th scope="col">Department Name</th>
         <th scope="col">Operator Name</th>
         <th scope="col">Faculty Name</th>
         <th scope="col">Creation Date</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
-        <th scope="col">Deleted</th>
+       
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -39,13 +39,13 @@ Department
       {% if query %}
         {% for post in query %}
           <tr>
-            <td>{{ post.departmentID }}</td>
+            <td>{{ post.name }}</td>
             <td>{{ operator_names[post.operatorID] }}</td>
             <td>{{ faculty_names[post.facultyID] }}</td>
             <td>{{ post.creationDate }}</td>  
             <td>{{ post.name }}</td>
             <td>{{ post.descc }}</td>
-            <td>{{ post.deleted}}</td>
+           
             
             <td>
             <td>  <a href="/departmentedit/{{ post.departmentID }}" class="btn btn-primary btn-sm">Edit</a></td>

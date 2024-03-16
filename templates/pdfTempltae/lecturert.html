@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Data Report</title>
+    <title>Lecturer Data Report</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
             color: #333;
             margin: 0;
@@ -65,34 +65,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Student Data Report</h1>
+        <h1>Lecturer Data Report</h1>
         <table>
             <thead>
                 <tr>
-                 
-                    <th>Gender</th>
+                    <th>Lecturer ID</th>
                     <th>Full Name</th>
-                    <th>Date of Birth</th>
-                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Department Name</th>
+                    <th>Operator Name</th>
                 </tr>
             </thead>
             <tbody>
-                {% for student in results %}
+                {% for lecturer in results %}
                     <tr>
-                     
-                        <td>{{ student['gender'] }}</td>
-                        <td>{{ student['fullname'] }}</td>
-                        <td>{{ student['DateOfBirth'] }}</td>
-                 
-                      
-                       
-                        <td>{{ student['email'] }}</td>
+                        <td>{{ lecturer['lecturerID'] }}</td>
+                        <td>{{ lecturer['fullname'] }}</td>
+                        <td>{{ lecturer['gender'] }}</td>
+                        <td>{{ lecturer['department_name'] }}</td>
+                        <td>{{ lecturer['operator_name'] }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="summary">
-            
+           
         </div>
     </div>
 </body>

@@ -25,7 +25,7 @@
       <thead class="thead-dark">
         <tr>
           <th scope="col">Student Name</th>
-          <th scope="col">Operator Name</th>
+          
           <th scope="col">Department Name</th>
           <th scope="col">Creation Date</th>
           <th scope="col">Card ID</th>
@@ -46,7 +46,7 @@
           {% for post in query %}
             <tr>
               <td>{{ post.fullname}}</td>
-              <td>{{ operator_names[post.operatorID] }}</td>
+             
               <td>{{department_names[post.departmentID]  }}</td> 
               <td>{{ post.creationDate }}</td>
               <td>{{ post.cardID }}</td>

@@ -28,16 +28,16 @@ Attendance
                 <div class="mb-3">
                     <label for="studentID" class="form-label">Select Student:</label>
                     <select name="studentID" class="form-select" required>
-                        <option value="">Select a student</option>
+                        
                         {% for student in students %}
                             <option value="{{ student.studentID }}">{{ student.fullname }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="courseID" class="form-label">Course:</label>
+                    <label for="courseID" class="form-label">Select a Course:</label>
                     <select name="courseID" class="form-select" required>
-                        <option value="">Select a course</option>
+                        
                         {% for course in courses %}
                             <option value="{{ course.courseID }}">{{ course.name }}</option>
                         {% endfor %}
@@ -50,7 +50,12 @@ Attendance
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success">Add</button>
                 </div>
+                <br>
             </form>
+               
+        <a href="/attendance" class="btn btn-outline-info btn-arrow">
+            <span class="fas fa-arrow-right"></span> Go to Datales Page
+        </a>
         </div>
         <div class="col-md-4"></div>
     </div>

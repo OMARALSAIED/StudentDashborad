@@ -41,18 +41,11 @@ Faculty
             <td>{{ post.name }}</td>
             <td>{{ operator_names[post.operatorID] }}</td>
             <td>{{ post.creationDate }}</td>  
-            
             <td>{{ post.descc }}</td>
-            <td>{{ post.deleted }}</td>
-
-
-
-
-
-               
+            <td>{{post.deleted}}</td>
             <td>
               <td> <a href="/facultyedit/{{ post.facultyID }}" class="btn btn-primary btn-sm">Edit</a></td>
-              <td> <a href="/deletfaculty/{{ post.facultyID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a></td>
+              <td> <a href="/deletefaculty/{{ post.facultyID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a></td>
             </td>
           
           </tr>

@@ -22,7 +22,7 @@ Course
         <th scope="col">Day Of Week</th>
         <th scope="col">Start Time</th>
         <th scope="col">End Time</th>
-        <th scope="col">Deleted</th>
+      
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -40,7 +40,7 @@ Course
             <td>{{ post.DayOfweek }}</td>
             <td>{{ post.startTime }}</td>
             <td>{{ post.endTime }}</td>
-            <td>{{ post.deleted}}</td>
+           
             
             <td><a href="/courseedit/{{ post.courseID }}" class="btn btn-primary btn-sm">Edit</a></td>
             <td><a href="/deletecourse/{{ post.courseID }}" onclick="return confirm('Are you sure to delete data?');" class="btn btn-danger btn-sm">Delete</a></td>

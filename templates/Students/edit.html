@@ -10,17 +10,12 @@
         <div class="col-md-6">
             <div class="card bg-dark text-white p-4 shadow">
 
-                <h4 class="text-center  text-success mb-4"> Student Edit</h4>
-
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">Edit Student</h4>
+                </div>
+                
                 <form action="{{ url_for('edit', studentID=studentID) }}" method="POST">
-                    <div class="mb-3">
-                        <label for="operatorID" class="form-label">Operator</label>
-                        <select class="form-select" name="operatorID" id="operatorID" required>
-                            {% for operator in opreators %}
-                            <option value="{{ operator.operatorID }}" {% if student.operatorID == operator.operatorID %} selected {% endif %}>{{ operator.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                   
                     <div class="mb-3">
                         <label for="departmentID" class="form-label">Department</label>
                         <select class="form-select" name="departmentID" id="departmentID" required>
@@ -56,14 +51,10 @@
 
                     <div class="form-group">
                         <label for="DateOfBirth">Date of Birth</label>
-                        <input type="date" class="form-control" name="DateOfBirth" id="DateOfBirth" value="{{ student.DateOfBirth }}" required>
+                        <input type="text" class="form-control" name="DateOfBirth" id="DateOfBirth" value="{{ student.DateOfBirth }}" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="enrollmentDate">Enrollment Date</label>
-                        <input type="date" class="form-control" name="enrollmentDate" id="enrollmentDate" value="{{ student.enrollmentDate }}" required>
-                    </div>
-
+                   
                     <div class="form-group">
                         <label for="phoneNumber">Phone Number</label>
                         <input type="number" class="form-control" name="phoneNumber" id="phoneNumber" value="{{ student.phoneNumber }}" required>

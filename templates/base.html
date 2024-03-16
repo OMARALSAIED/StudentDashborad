@@ -14,6 +14,39 @@
    
   </head>
   <body>
+    <style>
+      
+      
+      body {
+          background-color: #f8f9fa;
+      }
+      .navbar-brand {
+          font-weight: bold;
+      }
+      .navbar-nav .nav-link {
+          color: #ffffff;
+      }
+      .navbar-nav .nav-link:hover {
+          color: #ffc107;
+      }
+      .dropdown-menu {
+          background-color: #343a40;
+      }
+      .dropdown-menu .dropdown-item {
+          color: #ffffff;
+      }
+      .dropdown-menu .dropdown-item:hover {
+          background-color: #454d55;
+      }
+      .container {
+          margin-top: 20px;
+      }
+      h1 {
+          color: #343a40;
+          margin-bottom: 30px;
+      }
+      
+  </style>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
@@ -22,20 +55,28 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="d-flex" method="POST" action="/search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
+            <button class="btn btn-outline-danger" type="submit">Search</button>
+        </form>
+        
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Architecture</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/faculty_Details">Faculty</a></li>
-                <li><a class="dropdown-item" href="/DepartmentDetails">Department</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/classroomsDetails">Class Room</a></li>
-                <li><a class="dropdown-item" href="/Courses">Courses</a></li>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Architecture
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="/faculty_Details"><i class="bi bi-people"></i> Faculty</a></li>
+                  <li><a class="dropdown-item" href="/DepartmentDetails"><i class="bi bi-building"></i> Department</a></li>
+                  <hr class="dropdown-divider">
+                  <li><a class="dropdown-item" href="/classroomsDetails"><i class="bi bi-house-door"></i> Classrooms</a></li>
+                  <li><a class="dropdown-item" href="/Courses"><i class="bi bi-book"></i> Courses</a></li>
               </ul>
-            </li>
+          </li>
+          
             <li class="nav-item">
               <a class="nav-link" href="/lecturer">Lecturer</a>
             </li>
@@ -58,11 +99,13 @@
             {% if current_user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome {{current_user.username}}</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                <li><a class="dropdown-item" href="/signUp">Sign Up</a></li>
+              <ul class="dropdown-menu mr-auto"> <!-- Add mr-auto class here -->
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                  <li><a class="dropdown-item" href="/signUp">Add User</a></li>
               </ul>
-            </li>
+          </li>
+          
+          
             {% else %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Authentication</a>
@@ -73,11 +116,8 @@
             </li>
             {% endif %}
           </ul>
-          <form class="d-flex" method="POST" action="">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-            <button class="btn btn-outline-danger" type="submit">Search</button>
-        </form>
-    
+       
+        
         </div>
       </div>
     </nav>

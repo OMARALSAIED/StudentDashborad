@@ -1,23 +1,27 @@
 
 from decorators import app
-from routes.Allroutes import Allroutes
+from routes.Dashboard import Dashboard
 from routes.Auth import Auth
 from decorators import api
 from routes.Reports import Report
-from routes.Restful_Api import AttendanceTracking
-
-
+from routes.DetalsRoutes import DetalsRoutes
+from routes.Restful_Api import GetCourseNametest
+from routes.Addfun import Addfun
+from routes.Editfun import Editfun
+from routes.Deletefun import Deletefun
 local_server = True
 
 
-app.register_blueprint(Allroutes)
+app.register_blueprint(Dashboard)
 app.register_blueprint(Auth)
 app.register_blueprint(Report)
+app.register_blueprint(DetalsRoutes)
+app.register_blueprint(Addfun)
+app.register_blueprint(Editfun)
+app.register_blueprint(Deletefun)
 
 
-
-api.add_resource(AttendanceTracking, '/api/attendance_tracking')
-
+api.add_resource(GetCourseNametest,'/get_course_name_test')
 
 app.run(debug=True)
 

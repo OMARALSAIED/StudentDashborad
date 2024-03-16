@@ -32,7 +32,8 @@ Lecturer Edit
                         </div>
                         <div class="mb-3">
                             <label for="creationDate" class="form-label" style="color: white;">Creation Date</label>
-                            <input type="date" class="form-control" name="creationDate" id="creationDate" value="{{ lecturer.creationDate }}" required>
+                            <!-- Assuming department1.creationDate is a datetime object -->
+                            <input type="text" class="form-control" name="creationDate" id="creationDate" value="{{lecturer.creationDate.strftime('%Y-%m-%d %H:%M:%S') }}" required>
                         </div>
 
                         <div class="d-grid gap-2 col-6 mx-auto mb-4">

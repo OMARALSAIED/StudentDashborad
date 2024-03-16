@@ -35,7 +35,7 @@ def signup():
 
         if user:
             flash("Username already exists", "warning")
-            return render_template('signup.html')  # Redirect to the signup page to provide feedback
+            return render_template('auth/signup.html')  # Redirect to the signup page to provide feedback
 
         encpassword = generate_password_hash(password)
 
@@ -47,7 +47,7 @@ def signup():
         new_user = db.session.execute(sql_query)
         db.session.commit()  # Commit the changes to the database
         flash('Sign Up Success. Please Login', "success")
-        return render_template('login.html')
+        return render_template('auth/login.html')
 
     return render_template('auth/signup.html')
 

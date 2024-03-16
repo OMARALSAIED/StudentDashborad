@@ -77,22 +77,19 @@
                 </tr>
             </thead>
             <tbody>
-                {% for course in courses %}
+                {% for course in results %}
                     <tr>
-                        <td>{{ course.name }}</td>
-                        <td>{{ lecturer_names[course.lecturerID] if course.lecturerID in lecturer_names else 'Not found' }}</td>
-                        <td>{{ department_names[course.departmentID] if course.departmentID in department_names else 'Not found' }}</td>
-                        <td>{{ classroom_numbers[course.classroomID] if course.classroomID in classroom_numbers else 'Not found' }}</td>
-                        <td>{{ operator_names[course.operatorID] if course.operatorID in operator_names else 'Not found' }}</td>
+                        <td>{{ course['name'] }}</td>
+                        <td>{{ course.lecturer_name }}</td>
+                        <td>{{ course.department_name }}</td>
+                        <td>{{ course.classroom_number }}</td>
+                        <td>{{ course.operator_name }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="summary">
-            <p><strong>Total Courses:</strong> {{ total_courses }}</p>
-            <p><strong>Total Departments:</strong> {{ total_departments }}</p>
-            <p><strong>Total Lecturers:</strong> {{ total_lecturers }}</p>
-            <p><strong>Total Classrooms:</strong> {{ total_classrooms }}</p>
+            
         </div>
     </div>
 </body>

@@ -1,7 +1,8 @@
-from datetime import date, datetime
-from flask import Flask
+from datetime import  datetime
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -46,7 +47,10 @@ class faculty(db.Model):
     creationDate = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     name = db.Column(db.String(255), unique=True)
     descc = db.Column(db.String(255))
-    deleted = db.Column(db.Boolean, default=False)
+    deleted = db.Column(db.Boolean, default=False, onupdate='CASCADE')
+    
+
+
 
 class Department(db.Model):
     departmentID = db.Column(db.Integer, primary_key=True, nullable=False)

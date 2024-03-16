@@ -1,6 +1,6 @@
 
 from functools import wraps
-from flask import Flask, redirect, render_template, url_for,flash
+from flask import Flask, redirect,url_for,flash
 from flask_login import current_user
 from flask import Flask
 from flask_login import LoginManager

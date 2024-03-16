@@ -24,16 +24,33 @@ ClassRoom
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+
             <form action="{{ url_for('addclassroom') }}" method="post" novalidate>
+                <script>
+                    // Get the department select element
+                    var departmentSelect = document.getElementById("departmentID");
+                    
+                    // Add event listener to check validity on change
+                    departmentSelect.addEventListener("change", function() {
+                        if (this.value === "") {
+                            this.setCustomValidity("Please select a department");
+                        } else {
+                            this.setCustomValidity("");
+                        }
+                    });
+                </script>
+                
                 <div class="mb-3">
                     <label for="departmentID">Select Department:</label>
-                    <select name="departmentID" class="form-select" required>
-                        <option value="">Select Department</option>
+                    <br>
+                    <select name="departmentID" class="form-select">
                         {% for department in departments %}
                             <option value="{{ department.departmentID }}">{{ department.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
+                
+                
                 <div class="mb-3">
                     <label for="caption" class="form-label">Caption</label>
                     <input type="caption" class="form-control" id="caption" name="caption"pattern="[A-Za-z]+[0-9A-Za-z]*" title="Please enter a letter first, followed by numbers or additional letters."  required>
@@ -59,7 +76,12 @@ ClassRoom
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-success">Add</button>
                 </div>
+                <br>
+                <br>
             </form>
+            <a href="/classroomsDetails" class="btn btn-outline-info btn-arrow">
+                <span class="fas fa-arrow-right"></span> Go to Datales Page
+            </a>
         </div>
         <div class="col-md-4">
         </div>

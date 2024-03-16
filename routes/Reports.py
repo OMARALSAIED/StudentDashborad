@@ -1,4 +1,5 @@
 from flask import Blueprint, make_response, render_template
+from sqlalchemy import text
 from MysqlModels.models import Course, Lecturer, Operator, Role, Student, attendancesheet, beacon, classroom ,db,Department, faculty
 from decorators import app
 import pdfkit
@@ -8,57 +9,27 @@ Report= Blueprint('Report', __name__)
 
 @app.route('/download/course_report/pdf')
 def generate_course_pdf():
-    # Fetch course data from the database
-    courses = Course.query.all()
-    departments = Department.query.all()
-    lecturers = Lecturer.query.all()
-    operators = Operator.query.all()
-    classrooms = classroom.query.all()
+    # Custom SQL query to fetch data from multiple tables
+    query = text("""
+        SELECT c.*, d.name AS department_name, o.name AS operator_name,
+               cl.number AS classroom_number, l.fullname AS lecturer_name
+        FROM Course c
+        LEFT JOIN Department d ON c.departmentID = d.departmentID
+        LEFT JOIN Operator o ON c.operatorID = o.operatorID
+        LEFT JOIN classroom cl ON c.classroomID = cl.classroomID
+        LEFT JOIN Lecturer l ON c.lecturerID = l.lecturerID
+    """)
 
-    # Calculate total number of items
-    total_courses = len(courses)
-    total_departments = len(departments)
-    total_lecturers = len(lecturers)
-    total_classrooms = len(classrooms)
+    # Execute the query
+    results = db.session.execute(query)
 
-    # Calculate number of occupied instances
-    occupied_courses = sum(1 for course in courses if course.departmentID or course.lecturerID or course.classroomID)
-    occupied_departments = sum(1 for department in departments if department.name)
-    occupied_lecturers = sum(1 for lecturer in lecturers if lecturer.fullname)
-    occupied_classrooms = sum(1 for classroom in classrooms if classroom.number)
-
-    # Calculate percentage of usage
-    percentage_courses = ( total_courses/occupied_courses) * 100 if total_courses > 0 else 0
-    percentage_departments = (total_departments /occupied_departments ) * 100 if total_departments > 0 else 0
-    percentage_lecturers = (occupied_lecturers / total_lecturers) * 100 if total_lecturers > 0 else 0
-    percentage_classrooms = (occupied_classrooms / total_classrooms) * 100 if total_classrooms > 0 else 0
     
-    percentage_courses_ans=percentage_courses-100
-    percentage_departments_ans=percentage_departments-100
-    percentage_lecturers_ans=percentage_lecturers-100
-    percentage_classrooms_ans=percentage_classrooms-100
-
-    # Create dictionaries for quick lookup
-    department_names = {department.departmentID: department.name for department in departments}
-    operator_names = {operator.operatorID: operator.name for operator in operators}
-    classroom_numbers = {classroom.classroomID: classroom.number for classroom in classrooms}
-    lecturer_names = {lecturer.lecturerID: lecturer.fullname for lecturer in lecturers}
+    
 
     # Render HTML template with course data, summary, and total students
-    rendered_html = render_template('pdfTempltae/courset.html',
-                                    courses=courses,
-                                    department_names=department_names,
-                                    operator_names=operator_names,
-                                    classroom_numbers=classroom_numbers,
-                                    lecturer_names=lecturer_names,
-                                    total_courses=total_courses,
-                                    total_departments=total_departments,
-                                    total_lecturers=total_lecturers,
-                                    total_classrooms=total_classrooms,
-                                    percentage_courses_ans=percentage_courses_ans,
-                                    percentage_departments_ans=percentage_departments_ans,
-                                    percentage_lecturers_ans=percentage_lecturers_ans,
-                                    percentage_classrooms_ans=percentage_classrooms_ans)
+    rendered_html = render_template('pdfTempltae/courset.html',results=results
+                                   
+    )
 
     # Generate PDF from HTML
     config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
@@ -74,25 +45,57 @@ def generate_course_pdf():
 
 
 
+@app.route('/download/lecturer_report/pdf')
+def generate_lecturer_pdf():
+    # Custom SQL query to fetch data from multiple tables
+    query = text("""
+        SELECT l.*, d.name AS department_name, o.name AS operator_name
+        FROM Lecturer l
+        LEFT JOIN Department d ON l.departmentID = d.departmentID
+        LEFT JOIN Operator o ON l.operatorID = o.operatorID
+    """)
+
+    # Execute the query
+    results = db.session.execute(query)
+  
+  
+
+
+    # Render HTML template with lecturer data and total lecturers
+    rendered_html = render_template('pdfTempltae/lecturert.html', results=results)
+
+    # Generate PDF from HTML
+    config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+    pdf = pdfkit.from_string(rendered_html, configuration=config)
+
+    # Create a response with PDF content
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=lecturer_report.pdf'
+
+    return response
+
+
+
+
+
+
 @app.route('/download/student_report/pdf')
 def generate_student_pdf():
-    # Fetch student data from the database
-    departments = Department.query.all()
-    students = Student.query.all()
+    # Custom SQL query to fetch data from multiple tables
+    query = text("""
+        SELECT fullname,email,gender,DateOfBirth
+        FROM Student s
+        
+    """)
 
-    # Calculate total number of students and departments
-    total_students = len(students)
-    total_departments = len(departments)
+    # Execute the query
+    results = db.session.execute(query)
 
-    # Create a dictionary for department names for quick lookup
-    department_names = {department.departmentID: department.name for department in departments}
 
-    # Render HTML template with student data, summary, and total students
-    rendered_html = render_template('pdfTempltae/studentt.html',
-                                    students=students,
-                                    department_names=department_names,
-                                    total_students=total_students,
-                                    total_departments=total_departments)
+    
+    # Render HTML template with student data and summary
+    rendered_html = render_template('pdfTempltae/studentt.html', results=results)
 
     # Generate PDF from HTML
     config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
@@ -102,5 +105,35 @@ def generate_student_pdf():
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'attachment; filename=student_report.pdf'
+
+    return response
+
+
+
+
+@app.route('/download/attendance_report/pdf')
+def generate_attendance_pdf():
+    # Custom SQL query to fetch attendance data with course name and student name
+    query = text("""
+        SELECT c.name AS course_name, s.fullname AS student_name, a.timestamp
+        FROM AttendanceSheet a
+        LEFT JOIN Course c ON a.courseID = c.courseID
+        LEFT JOIN Student s ON a.studentID = s.studentID
+        ORDER BY c.name, s.fullname, a.timestamp
+    """)
+    # Execute the query
+    results = db.session.execute(query)
+
+    # Render HTML template with attendance data
+    rendered_html = render_template('pdfTempltae/attendance.html', results=results)
+
+    # Generate PDF from HTML
+    config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+    pdf = pdfkit.from_string(rendered_html, configuration=config)
+
+    # Create a response with PDF content
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=attendance_report.pdf'
 
     return response
