@@ -1,11 +1,12 @@
 
+from api.Restful_api import AttendanceList,FindConflictingCourseResource
 from decorators import app
 from routes.Dashboard import Dashboard
 from routes.Auth import Auth
 from decorators import api
 from routes.Reports import Report
 from routes.DetalsRoutes import DetalsRoutes
-from routes.Restful_Api import GetCourseNametest
+
 from routes.Addfun import Addfun
 from routes.Editfun import Editfun
 from routes.Deletefun import Deletefun
@@ -20,8 +21,9 @@ app.register_blueprint(Addfun)
 app.register_blueprint(Editfun)
 app.register_blueprint(Deletefun)
 
+api.add_resource(AttendanceList, '/attendance')
+api.add_resource(FindConflictingCourseResource, '/find_conflicting_course')
 
-api.add_resource(GetCourseNametest,'/get_course_name_test')
 
 app.run(debug=True)
 
