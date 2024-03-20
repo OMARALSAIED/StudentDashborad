@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Adjustments for smaller screens */
+        @media (max-width: 576px) {
+            .table-responsive-sm {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+            }
+        }
+
+        /* Custom styling */
+        .btn-arrow {
+            margin-bottom: 20px;
+        }
+
+        .department-details table {
+            width: 100%;
+        }
+
+        .department-details th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .department-details td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .no-results {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <form class="d-flex" method="POST" action="/Departments">
+            <input class="form-control me-2" type="search" placeholder="Search by department name" aria-label="Search" name="Departments">
+            <button class="btn btn-outline-danger" type="submit">Search</button>
+        </form>
+        <br>
+        <h2 class="mb-4">Department Search Results</h2>
+        <a href="/DepartmentDetails" class="btn btn-outline-info btn-arrow">
+            <span class="fas fa-arrow-left"></span> Go back
+        </a>
+        <div class="department-details mt-3">
+            {% if results %}
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Department ID</th>
+                                <th>Operator ID</th>
+                                <th>Faculty ID</th>
+                                <th>Creation Date</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Deleted</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for department in results %}
+                                <tr>
+                                    <td>{{ department.departmentID }}</td>
+                                    <td>{{ department.operatorID }}</td>
+                                    <td>{{ department.facultyID }}</td>
+                                    <td>{{ department.creationDate }}</td>
+                                    <td>{{ department.name }}</td>
+                                    <td>{{ department.descc }}</td>
+                                    <td>{{ department.deleted }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="no-results">No results found.</p>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

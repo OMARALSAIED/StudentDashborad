@@ -5,6 +5,14 @@ Faculty
 {% endblock title %}
 
 {% block body %}
+<div class="container mt-4">
+<div class="col-md-3">
+  <form class="d-flex" method="POST" action="/faculties">
+      <input class="form-control me-2" type="search" placeholder="Search for faculty" aria-label="Search" name="search" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
+      <button class="btn btn-outline-info" type="submit">Search</button>
+  </form>
+</div>
+</div>
 
 {% with messages=get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -28,7 +36,6 @@ Faculty
         <th scope="col">Faculties</th>
         <th scope="col">Operator</th>  
         <th scope="col">CreationDate</th>
-      
         <th scope="col">Descrabtion</th>
         <th scope="col">Deleted</th>
         <th scope="col">Actions</th>
@@ -44,10 +51,9 @@ Faculty
             <td>{{ post.descc }}</td>
             <td>{{post.deleted}}</td>
             <td>
-              <td> <a href="/facultyedit/{{ post.facultyID }}" class="btn btn-primary btn-sm">Edit</a></td>
-              <td> <a href="/deletefaculty/{{ post.facultyID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a></td>
+              <a href="/facultyedit/{{ post.facultyID }}" class="btn btn-primary btn-sm">Edit</a>
+              <a href="/deletefaculty/{{ post.facultyID }}" onclick="return confirm('Are you sure to Delete data');" class="btn btn-danger btn-sm">Delete</a>
             </td>
-          
           </tr>
         {% endfor %}
       {% else %}

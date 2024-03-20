@@ -10,12 +10,7 @@ from MysqlModels.models import attendancesheet, classroom, db
 class CourseID:
     @staticmethod
     def find_conflicting_course(classroom_number):
-        """
-        Find a course that has a conflicting start time with a specific classroom.
-
-        :param classroom_number: Number of the classroom to check against
-        :return: Conflicting course, if any, including the course ID and start time
-        """
+     
         # Retrieve the classroom ID based on the provided classroom number
         classroom_id = classroom.query.filter_by(number=classroom_number).first().classroomID
 
@@ -40,11 +35,16 @@ class CourseID:
             # Convert timedelta to string (ISO 8601 format)
             start_time_str = str(start_time)
             
-            return {'courseID': course_id, 'start_time': start_time_str}
+            return {'courseID': course_id}
         else:
             return None
+        
+
+
+
 
 class FindConflictingCourseResource(Resource):
+
     def post(self):
         # Get data from the request
         data = request.json
@@ -71,7 +71,7 @@ CourseID()
 
 attendance_post = reqparse.RequestParser()
 attendance_post.add_argument('studentID', type=str, help="studentID is required", required=True)
-attendance_post.add_argument('courseID', type=str, help="courseID is required", required=True)
+attendance_post.add_argument('classroom_number', type=int, help="classroom_number is required", required=True)
 attendance_post.add_argument('timestamp', 
                               type=str, 
                               help="Time stamp is required", 
@@ -87,20 +87,25 @@ resource_fields = {
 }
 
 class AttendanceList(Resource):
-    def get(self, attendance_ID):
-        args = attendance_post.parse_args()
-        attend = attendancesheet.query.filter_by(attendanceID=attendance_ID).first()
-        if attend:
-            abort(409)
-        return
-    
     @marshal_with(resource_fields)
     def post(self):
         args = attendance_post.parse_args()
+        classroom_number = args['classroom_number']
         
+        if classroom_number is None:
+            return jsonify({"error": "Classroom number and start time are required"}), 400
+
+        conflicting_course = CourseID.find_conflicting_course(classroom_number)
+
+        if conflicting_course is None:
+            return jsonify({"error": "No conflicting course found"}), 404
+
+        course_id = conflicting_course['courseID']
+
         new_attendance = attendancesheet(studentID=args['studentID'], 
-                                         courseID=args['courseID'], 
+                                         courseID=course_id, 
                                          timestamp=datetime.strptime(args['timestamp'], '%Y-%m-%dT%H:%M:%S'))
         db.session.add(new_attendance)
         db.session.commit()
+
         return new_attendance, 201

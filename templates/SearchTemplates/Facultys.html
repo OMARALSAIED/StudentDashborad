@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
+    <title>Faculty Details</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         /* Adjustments for smaller screens */
@@ -22,16 +22,16 @@
             margin-bottom: 20px;
         }
 
-        .search-results table {
+        .faculty-details table {
             width: 100%;
         }
 
-        .search-results th {
+        .faculty-details th {
             font-weight: bold;
             text-align: center;
         }
 
-        .search-results td {
+        .faculty-details td {
             text-align: center;
             vertical-align: middle;
         }
@@ -45,49 +45,38 @@
 </head>
 <body>
     <div class="container mt-5">
-        <form class="d-flex" method="POST" action="/search">
-            <input class="form-control me-2" type="search" placeholder="Search by fullname" aria-label="Search" name="search">
+        <form class="d-flex" method="POST" action="/faculties">
+            <input class="form-control me-2" type="search" placeholder="Search by faculty name" aria-label="Search" name="faculties"  pattern="[A-Za-z]*" title="Please enter a Valid name">
             <button class="btn btn-outline-danger" type="submit">Search</button>
         </form>
-        <h2 class="mb-4">Search Results</h2>
-        <a href="/" class="btn btn-outline-info btn-arrow">
+        <br>
+        <h2 class="mb-4">Faculty Details</h2>
+        <a href="/faculty_Details" class="btn btn-outline-info btn-arrow">
             <span class="fas fa-arrow-left"></span> Go back
         </a>
-        <div class="search-results mt-3">
+        <div class="faculty-details mt-3">
             {% if results %}
                 <div class="table-responsive-sm">
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Student ID</th>
-                                <th>Full Name</th>
-                                <th>Department</th>
-                                <th>Card ID</th>
-                                <th>National ID</th>
-                                <th>Gender</th>
-                                <th>Date of Birth</th>
-                                <th>Enrollment Date</th>
-                                <th>Phone Number</th>
-                                <th>Address</th>
-                                <th>MAC</th>
-                                <th>Email</th>
+                                <th>Faculty</th>
+                                
+                                <th>Creation Date</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                              
                             </tr>
                         </thead>
                         <tbody>
-                            {% for student in results %}
+                            {% for faculty in results %}
                                 <tr>
-                                    <td>{{ student.studentID }}</td>
-                                    <td>{{ student.fullname }}</td>
-                                    <td>{{ student.departmentID }}</td>
-                                    <td>{{ student.cardID }}</td>
-                                    <td>{{ student.nationalID }}</td>
-                                    <td>{{ student.gender }}</td>
-                                    <td>{{ student.DateOfBirth }}</td>
-                                    <td>{{ student.enrollmentDate }}</td>
-                                    <td>{{ student.phoneNumber }}</td>
-                                    <td>{{ student.address }}</td>
-                                    <td>{{ student.MAC }}</td>
-                                    <td>{{ student.email }}</td>
+                                    <td>{{ faculty.name }}</td>
+                    
+                                    <td>{{ faculty.creationDate }}</td>
+                                    <td>{{ faculty.name }}</td>
+                                    <td>{{ faculty.descc }}</td>
+                                    
                                 </tr>
                             {% endfor %}
                         </tbody>

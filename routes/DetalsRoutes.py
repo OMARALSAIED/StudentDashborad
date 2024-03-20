@@ -161,12 +161,3 @@ def Beacon():
 
 
 
-@app.route('/search', methods=['POST'])
-def search():
-    search_query = request.form.get('search')
-    if search_query:
-        # Perform the search using the Student model's search_by_name method
-        search_results = Student.query.filter(Student.fullname.ilike(f"%{search_query}%")).all()
-        return render_template('search.html', results=search_results)
-    else:
-        return render_template('search.html', results=search_results)
