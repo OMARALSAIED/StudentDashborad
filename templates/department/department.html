@@ -7,8 +7,8 @@ Department
 {% block body %}
 <div class="container mt-4">
   <div class="col-md-3">
-    <form class="d-flex" method="POST" action="/Departments">
-        <input class="form-control me-2" type="search" placeholder="Search for Departmen" aria-label="Search" name="Departments" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
+    <form class="d-flex" method="POST" action="/Departmentsearch">
+        <input class="form-control me-2" type="search" placeholder="Search for Departmen" aria-label="Search" name="search" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
         <button class="btn btn-outline-info" type="submit">Search</button>
     </form>
   </div>
@@ -34,10 +34,10 @@ Department
     <thead class="thead-dark">
       <tr>
         <th scope="col">Department Name</th>
-        <th scope="col">Operator Name</th>
+       
         <th scope="col">Faculty Name</th>
         <th scope="col">Creation Date</th>
-        <th scope="col">Name</th>
+       
         <th scope="col">Description</th>
        
         <th scope="col">Actions</th>
@@ -48,10 +48,10 @@ Department
         {% for post in query %}
           <tr>
             <td>{{ post.name }}</td>
-            <td>{{ operator_names[post.operatorID] }}</td>
+           
             <td>{{ faculty_names[post.facultyID] }}</td>
             <td>{{ post.creationDate }}</td>  
-            <td>{{ post.name }}</td>
+           
             <td>{{ post.descc }}</td>
            
             

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beacon Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Adjustments for smaller screens */
+        @media (max-width: 576px) {
+            .table-responsive-sm {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+            }
+        }
+
+        /* Custom styling */
+        .btn-arrow {
+            margin-bottom: 20px;
+        }
+
+        .beacon-details table {
+            width: 100%;
+        }
+
+        .beacon-details th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .beacon-details td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .no-results {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <form class="d-flex" method="POST" action="/beaconsearch">
+            <input class="form-control me-2" type="search" placeholder="Search by beacon MAC" aria-label="Search" name="search">
+            <button class="btn btn-outline-danger" type="submit">Search</button>
+        </form>
+        <br>
+        <h2 class="mb-4">Beacon Search Results</h2>
+        <a href="/beacons" class="btn btn-outline-info btn-arrow">
+            <span class="fas fa-arrow-left"></span> Go back
+        </a>
+        <div class="beacon-details mt-3">
+            {% if results %}
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                
+                                
+                                <th>Classroom Number</th>
+                                <th>Creation Date</th>
+                                <th>Caption</th>
+                                <th>UUID</th>
+                                <th>MAC</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for beacon in results %}
+                                <tr>
+                                    
+                                    
+                                    <td>{{classroom_names[beacon.classroomID]}}</td>
+                                    <td>{{ beacon.creationDate }}</td>
+                                    <td>{{ beacon.caption }}</td>
+                                    <td>{{ beacon.UUID }}</td>
+                                    <td>{{ beacon.MAC }}</td>
+                                   
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="no-results">No results found.</p>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

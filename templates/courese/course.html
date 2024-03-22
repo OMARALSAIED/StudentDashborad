@@ -5,6 +5,15 @@ Course
 {% endblock title %}
 
 {% block body %}
+<div class="container mt-4">
+  <div class="col-md-3">
+    <form class="d-flex" method="POST" action="/coursesearch">
+        <input class="form-control me-2" type="search" placeholder="Search for Course" aria-label="Search" name="search" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
+        <button class="btn btn-outline-info" type="submit">Search</button>
+    </form>
+  </div>
+  </div>
+
 
 <div class="container mt-4">
   <h2>Courses Details</h2>

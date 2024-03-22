@@ -5,6 +5,14 @@ Beacons
 {% endblock title %}
 
 {% block body %}
+<div class="container mt-4">
+  <div class="col-md-3">
+    <form class="d-flex" method="POST" action="/beaconsearch">
+        <input class="form-control me-2" type="search" placeholder="Search for Beacon Mac" aria-label="Search" name="search" pattern="[A-Za-z]*" title="Please enter a Valid name" required>
+        <button class="btn btn-outline-info" type="submit">Search</button>
+    </form>
+  </div>
+  </div>
 
 {% with messages=get_flashed_messages(with_categories=true) %}
   {% if messages %}
