@@ -53,8 +53,9 @@ def Department_Details():
 
 #=================================ClassRooms Routes
 
-
 @app.route('/classroomsDetails')
+@login_required
+@admin_required
 def classrooms_Details():
    query = classroom.query.filter(or_(classroom.deleted == False, classroom.deleted == None)).all()
    opreators=Operator.query.all()
@@ -70,6 +71,8 @@ def classrooms_Details():
 #=================================Courses Routes
 
 @app.route('/Courses')
+@login_required
+@admin_required
 def Courses():
     
     query = Course.query.filter(or_(Course.deleted == False, Course.deleted == None)).all()
@@ -118,7 +121,8 @@ def lecturer():
 
 
 @app.route('/details')
-
+@login_required
+@admin_required
 def Details():
        
 
@@ -136,6 +140,8 @@ def Details():
 #=================================AttendanceSheet Routes
 
 @app.route('/attendance')
+@login_required
+@admin_required
 def attendance():
     students = Student.query.all()  # Fetch all students
     courses = Course.query.all() 
@@ -150,6 +156,8 @@ def attendance():
 
 
 @app.route('/beacons')
+@login_required
+@admin_required
 def Beacon():
     opreators=Operator.query.all()
     classrooms=classroom.query.all()

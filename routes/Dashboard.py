@@ -37,6 +37,11 @@ def Home():
 def index():
     return render_template('index.html')
 
+@app.route('/sidebar')
+def side():
+
+    return render_template('sidebar.html')
+
 
 
 

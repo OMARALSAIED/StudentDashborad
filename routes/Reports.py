@@ -9,6 +9,7 @@ Report= Blueprint('Report', __name__)
 
 @app.route('/download/course_report/pdf')
 def generate_course_pdf():
+    
     # Custom SQL query to fetch data from multiple tables
     query = text("""
         SELECT c.*, d.name AS department_name, o.name AS operator_name,
@@ -23,13 +24,13 @@ def generate_course_pdf():
     # Execute the query
     results = db.session.execute(query)
 
-    
-    
+    # Calculate total number of courses
+    total_courses = results.rowcount
+    total_lecturer=results
 
+ 
     # Render HTML template with course data, summary, and total students
-    rendered_html = render_template('pdfTempltae/courset.html',results=results
-                                   
-    )
+    rendered_html = render_template('pdfTempltae/courset.html', results=results, total_courses=total_courses)
 
     # Generate PDF from HTML
     config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
@@ -111,20 +112,37 @@ def generate_student_pdf():
 
 
 
+
 @app.route('/download/attendance_report/pdf')
 def generate_attendance_pdf():
-    # Custom SQL query to fetch attendance data with course name and student name
+    # Custom SQL query to fetch attendance data with course name, student name, and attendance status
     query = text("""
-        SELECT c.name AS course_name, s.fullname AS student_name, a.timestamp
-        FROM AttendanceSheet a
-        LEFT JOIN Course c ON a.courseID = c.courseID
-        LEFT JOIN Student s ON a.studentID = s.studentID
-        ORDER BY c.name, s.fullname, a.timestamp
+        SELECT
+            c.name AS course_name,
+            s.fullname AS student_name,
+            a.timestamp,
+            CASE
+                WHEN a.timestamp < (SELECT startTime FROM course WHERE course.courseID = a.courseID) THEN 'Present'
+                ELSE 'Absent'
+            END AS attendance_status
+        FROM
+            attendancesheet a
+        LEFT JOIN
+            Course c ON a.courseID = c.courseID
+        LEFT JOIN
+            Student s ON a.studentID = s.studentID
+        ORDER BY
+            c.name, s.fullname, a.timestamp
     """)
+
     # Execute the query
     results = db.session.execute(query)
+    
 
-    # Render HTML template with attendance data
+    # Initialize counts for present and absent students
+   
+
+    # Render HTML template with attendance data and counts
     rendered_html = render_template('pdfTempltae/attendance.html', results=results)
 
     # Generate PDF from HTML

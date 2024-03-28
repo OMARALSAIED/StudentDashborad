@@ -73,12 +73,7 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            if user.roleID is not None:
-                role = Role.query.get(user.roleID)
-                if role.name == 'admin':
-                    return redirect(url_for('index'))
-                elif role.name == 'superadm':
-                    return redirect(url_for('dashboard'))
+            return redirect(url_for('side'))
         
         flash('Password or Username is not correct', 'danger')
         return redirect(url_for('login'))
