@@ -1,11 +1,12 @@
-from aifc import Error
-from datetime import datetime, time, timezone
 
-from sqlalchemy import text
-from decorators import app
+from datetime import datetime, timedelta, timezone
+
+from flask_login import current_user
+from sqlalchemy import or_, text
+from decorators import My_SECRET_KEY, generate_token, required_token
 from flask import abort, jsonify, request, session
 from flask_restful import Resource, reqparse, marshal_with, fields
-from MysqlModels.models import attendancesheet, classroom, db
+from MysqlModels.models import Student, attendancesheet, classroom, db
 
 class CourseID:
     @staticmethod
@@ -87,7 +88,9 @@ resource_fields = {
 }
 
 class AttendanceList(Resource):
+
     @marshal_with(resource_fields)
+    
     def post(self):
         args = attendance_post.parse_args()
         classroom_number = args['classroom_number']
@@ -109,3 +112,12 @@ class AttendanceList(Resource):
         db.session.commit()
 
         return new_attendance, 201
+
+
+
+
+
+
+
+
+

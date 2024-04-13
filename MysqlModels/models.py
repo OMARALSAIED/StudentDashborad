@@ -125,4 +125,9 @@ class attendancesheet(db.Model):
     deleted = db.Column(db.Boolean, default=False)
 
 
+class Token(db.Model):
+      tokenID = db.Column(db.Integer, primary_key=True, nullable=False)
+      token = db.Column(db.String(255), nullable=False, unique=True)
+      counter = db.Column(db.Integer, nullable=False, default=0)
+
 
